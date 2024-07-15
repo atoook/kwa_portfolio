@@ -1,17 +1,28 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { createClient } from "@/prismicio";
+import * as prismic from "@prismicio/client";
 import ContentBody from "@/components/ContentBody";
 
-type Params = { uid: string };
+import { getLocales } from "@/utils/getLocales";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+
+type Params = { uid: string; lang: string };
 
 export default async function Page({ params }: { params: Params }) {
   const client = createClient();
   const page = await client
-    .getByUID("project", params.uid)
+    .getByUID("blog_post", params.uid, { lang: params.lang })
     .catch(() => notFound());
 
-  return <ContentBody page={page} />;
+  const locales = await getLocales(page, client);
+
+  return (
+    <>
+      <LanguageSwitcher locales={locales} />
+      <ContentBody page={page} />
+    </>
+  );
 }
 
 export async function generateMetadata({
@@ -21,7 +32,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const client = createClient();
   const page = await client
-    .getByUID("project", params.uid)
+    .getByUID("blog_post", params.uid, { lang: params.lang })
     .catch(() => notFound());
 
   return {
@@ -32,9 +43,12 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
   const client = createClient();
-  const pages = await client.getAllByType("project");
+  const pages = await client.getAllByType("blog_post", {
+    predicates: [prismic.filter.not("my.page.uid", "homepage")],
+    lang: "*",
+  });
 
   return pages.map((page) => {
-    return { uid: page.uid };
+    return { uid: page.uid, lang: page.lang };
   });
 }
