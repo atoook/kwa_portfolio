@@ -7,9 +7,9 @@ import { createClient } from "@/prismicio";
 import { components } from "@/slices";
 
 import { getLocales } from "@/utils/getLocales";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type Params = { uid: string; lang: string };
 
@@ -23,8 +23,9 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <>
-      <Header lang={params.lang} />
-      <LanguageSwitcher locales={locales} />
+      <Header lang={params.lang}>
+        <LanguageSwitcher locales={locales} />
+      </Header>
       <SliceZone
         slices={page.data.slices}
         components={components}

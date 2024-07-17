@@ -1,6 +1,7 @@
 // ./src/components/LanguageSwitcher.tsx
 "use client";
 import { PrismicNextLink } from "@prismicio/next";
+import { GrLanguage } from "react-icons/gr";
 
 interface LanguageSwitcherProps {
   locales: {
@@ -15,12 +16,14 @@ const localeLabels = {
   "ja-jp": "JP",
 };
 
-export const LanguageSwitcher = ({ locales }: LanguageSwitcherProps) => (
-  <div className="flex flex-wrap gap-3">
-    <span aria-hidden>🌐</span>
+const LanguageSwitcher = ({ locales }: LanguageSwitcherProps) => (
+  <div className="flex flex-row-reverse flex-wrap gap-3 px-9">
     <ul className="flex flex-wrap gap-3">
       {locales.map((locale) => (
-        <li key={locale.lang} className="first:font-semibold">
+        <li
+          key={locale.lang}
+          className="first:border-b-2 first:border-yellow-400 first:font-semibold first:text-yellow-300"
+        >
           <PrismicNextLink
             href={locale.url}
             locale={locale.lang}
@@ -32,5 +35,10 @@ export const LanguageSwitcher = ({ locales }: LanguageSwitcherProps) => (
         </li>
       ))}
     </ul>
+    <span aria-hidden className="pt-1">
+      <GrLanguage />
+    </span>
   </div>
 );
+
+export default LanguageSwitcher;
