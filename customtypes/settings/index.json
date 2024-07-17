@@ -13,6 +13,14 @@
           "placeholder": ""
         }
       },
+      "home_link": {
+        "type": "Link",
+        "config": {
+          "label": "home_link",
+          "placeholder": "",
+          "select": null
+        }
+      },
       "nav_item": {
         "type": "Group",
         "config": {

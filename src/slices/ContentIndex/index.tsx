@@ -8,17 +8,23 @@ import { createClient } from "@/prismicio";
 /**
  * Props for `ContentIndex`.
  */
-export type ContentIndexProps = SliceComponentProps<Content.ContentIndexSlice>;
+type ContextWithLang = {
+  lang: string;
+};
+export type ContentIndexProps =
+  SliceComponentProps<Content.ContentIndexSlice> & { context: ContextWithLang };
 
 /**
  * Component for "ContentIndex" Slices.
  */
 const ContentIndex = async ({
   slice,
+  context,
 }: ContentIndexProps): Promise<JSX.Element> => {
+  const { lang } = context;
   const client = createClient();
-  const blogPosts = await client.getAllByType("blog_post");
-  const projects = await client.getAllByType("project");
+  const blogPosts = await client.getAllByType("blog_post", { lang: lang });
+  const projects = await client.getAllByType("project", { lang: lang });
 
   const contentType = slice.primary.content_type || "Blog";
 

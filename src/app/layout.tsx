@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import clsx from "clsx";
 import { PrismicPreview } from "@prismicio/next";
@@ -27,9 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-slate-900 text-slate-100">
       <body className={clsx(urbanist.className, "relative min-h-screen")}>
-        <Header />
         {children}
-        <Footer />
         <div className="max-h0screen background-gradient absolute inset-0 -z-50"></div>
         <div className="pointer-events-none absolute inset-0 -z-40 h-full bg-[url('/cubes.png')] opacity-80 mix-blend-soft-light"></div>
       </body>

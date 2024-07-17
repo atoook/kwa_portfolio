@@ -6,6 +6,8 @@ import { components } from "@/slices";
 
 import { getLocales } from "@/utils/getLocales";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default async function Page({
   params: { lang },
@@ -19,8 +21,10 @@ export default async function Page({
 
   return (
     <>
+      <Header lang={lang} />
       <LanguageSwitcher locales={locales} />
       <SliceZone slices={page.data.slices} components={components} />;
+      <Footer lang={lang} />
     </>
   );
 }

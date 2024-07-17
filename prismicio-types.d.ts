@@ -371,6 +371,17 @@ interface SettingsDocumentData {
   name: prismic.KeyTextField;
 
   /**
+   * home_link field in *Settings*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: settings.home_link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  home_link: prismic.LinkField;
+
+  /**
    * Nav Item field in *Settings*
    *
    * - **Field Type**: Group
