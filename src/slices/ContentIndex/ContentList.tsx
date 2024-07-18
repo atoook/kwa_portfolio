@@ -1,7 +1,7 @@
 "use client";
 import { Content, asImageSrc, isFilled } from "@prismicio/client";
 import Link from "next/link";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -28,7 +28,7 @@ export default function ContentList({
 
   const lastMousePos = useRef({ x: 0, y: 0 });
 
-  const urlPrefix = contentType === "Blog" ? "/blog" : "/projects";
+  const urlPrefix = contentType === "Blog" ? "blog" : "projects";
 
   useEffect(() => {
     let ctx = gsap.context(() => {
@@ -130,7 +130,7 @@ export default function ContentList({
             {isFilled.keyText(item.data.title) && (
               <li
                 key={index}
-                className="z-50 list-item opacity-0"
+                className="opacity-0f z-50 list-item"
                 onMouseEnter={() => onMouseEnter(index)}
                 ref={(el) => {
                   itemsRef.current[index] = el;

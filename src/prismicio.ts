@@ -18,11 +18,19 @@ const routes: prismic.ClientConfig["routes"] = [
   // Examples:
   {
   	type: "homepage",
-  	path: "/",
+    path: "/:lang?",
   },
   {
-  	type: "page",
-  	path: "/:uid",
+    type: 'page',
+    path: '/:lang?/:uid',
+  },
+  {
+    type: 'blog_post',
+    path: '/:lang?/blog/:uid',
+  },
+  {
+    type: 'project',
+    path: '/:lang?/projects/:uid',
   },
 ];
 
