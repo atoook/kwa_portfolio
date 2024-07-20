@@ -7,7 +7,11 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/slices/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
+  theme: {
+    backgroundImage: {
+      'cubes-pattern': "url('/images/cubes.png')",
+    },
+  },
   plugins: [
     require('@tailwindcss/typography'),
   ],
