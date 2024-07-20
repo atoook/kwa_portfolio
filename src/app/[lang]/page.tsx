@@ -24,7 +24,7 @@ export default async function Page({
       <Header lang={lang}>
         <LanguageSwitcher locales={locales} />
       </Header>
-      <SliceZone slices={page.data.slices} components={components} />;
+      <SliceZone slices={page.data.slices} components={components} />
       <Footer lang={lang} />
     </>
   );
