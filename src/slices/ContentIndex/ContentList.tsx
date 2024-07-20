@@ -1,7 +1,7 @@
 "use client";
 import { Content, asImageSrc, isFilled } from "@prismicio/client";
 import Link from "next/link";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -126,7 +126,7 @@ export default function ContentList({
         onMouseLeave={onMouseLeave}
       >
         {items.map((item, index) => (
-          <>
+          <Fragment key={index}>
             {isFilled.keyText(item.data.title) && (
               <li
                 key={index}
@@ -157,7 +157,7 @@ export default function ContentList({
                 </Link>
               </li>
             )}
-          </>
+          </Fragment>
         ))}
       </ul>
       {/* Hover ELement */}
