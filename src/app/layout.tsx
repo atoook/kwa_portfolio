@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
-import Footer from "@/components/Footer";
 import clsx from "clsx";
 import { PrismicPreview } from "@prismicio/next";
 import { createClient, repositoryName } from "@/prismicio";
@@ -28,7 +27,7 @@ export default function RootLayout({
       <body className={clsx(urbanist.className, "relative min-h-screen")}>
         {children}
         <div className="max-h0screen background-gradient absolute inset-0 -z-50"></div>
-        <div className="pointer-events-none absolute inset-0 -z-40 h-full bg-[url('/cubes.png')] opacity-80 mix-blend-soft-light"></div>
+        <div className="bg-cubes-pattern pointer-events-none absolute inset-0 -z-40 h-full mix-blend-soft-light"></div>
       </body>
       <PrismicPreview repositoryName={repositoryName} />
     </html>
