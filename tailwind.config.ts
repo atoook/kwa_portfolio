@@ -8,8 +8,10 @@ const config: Config = {
     "./src/slices/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    backgroundImage: {
-      'cubes-pattern': "url('/images/cubes.png')",
+    extend: {
+      backgroundImage: {
+        'cubes-pattern': "url('/images/cubes.png')",
+      },
     },
   },
   plugins: [
