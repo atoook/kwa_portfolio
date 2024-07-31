@@ -51,7 +51,7 @@ const TechList = ({ slice }: TechListProps): JSX.Element => {
             : gsap.utils.random(600, 400);
         },
         ease: "power1.inOut",
-      }
+      },
     );
 
     return () => ctx.revert();
@@ -68,29 +68,31 @@ const TechList = ({ slice }: TechListProps): JSX.Element => {
           {slice.primary.heading}
         </Heading>
       </Bounded>
-      {slice.primary.items.map(({ tech_name, tech_color }, index) => (
-        <div
-          key={index}
-          className="tech-row mb-8 flex items-center justify-center gap-4 text-slate-700"
-          aria-label={tech_name || undefined}
-        >
-          {Array.from({ length: 15 }, (_, index) => (
-            <React.Fragment key={index}>
-              <span
-                className="tech_item text-8xl font-extrabold uppercase tracking-tighter"
-                style={{
-                  color: index === 7 && tech_color ? tech_color : "inherit",
-                }}
-              >
-                {tech_name}
-              </span>
-              <span>
-                <MdCircle className="text-3xl" />
-              </span>
-            </React.Fragment>
-          ))}
-        </div>
-      ))}
+      <div className="overflow-hidden">
+        {slice.primary.items.map(({ tech_name, tech_color }, index) => (
+          <div
+            key={index}
+            className="tech-row mb-8 flex items-center justify-center gap-4 text-slate-700"
+            aria-label={tech_name || undefined}
+          >
+            {Array.from({ length: 15 }, (_, index) => (
+              <React.Fragment key={index}>
+                <span
+                  className="tech_item text-8xl font-extrabold uppercase tracking-tighter"
+                  style={{
+                    color: index === 7 && tech_color ? tech_color : "inherit",
+                  }}
+                >
+                  {tech_name}
+                </span>
+                <span>
+                  <MdCircle className="text-3xl" />
+                </span>
+              </React.Fragment>
+            ))}
+          </div>
+        ))}
+      </div>
     </section>
   );
 };
