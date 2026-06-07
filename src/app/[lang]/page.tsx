@@ -9,11 +9,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-export default async function Page({
-  params: { lang },
-}: {
-  params: { lang: string };
-}) {
+type Params = Promise<{ lang: string }>;
+
+export default async function Page({ params }: { params: Params }) {
+  const { lang } = await params;
   const client = createClient();
   const page = await client.getSingle("homepage", { lang });
 
@@ -31,10 +30,11 @@ export default async function Page({
 }
 
 export async function generateMetadata({
-  params: { lang },
+  params,
 }: {
-  params: { lang: string };
+  params: Params;
 }): Promise<Metadata> {
+  const { lang } = await params;
   const client = createClient();
   const page = await client.getSingle("homepage", { lang });
 

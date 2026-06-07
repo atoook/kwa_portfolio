@@ -9,23 +9,24 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-type Params = { uid: string; lang: string };
+type Params = Promise<{ uid: string; lang: string }>;
 
 export default async function Page({ params }: { params: Params }) {
+  const { uid, lang } = await params;
   const client = createClient();
   const page = await client
-    .getByUID("blog_post", params.uid, { lang: params.lang })
+    .getByUID("blog_post", uid, { lang })
     .catch(() => notFound());
 
   const locales = await getLocales(page, client);
 
   return (
     <>
-      <Header lang={params.lang}>
+      <Header lang={lang}>
         <LanguageSwitcher locales={locales} />
       </Header>
       <ContentBody page={page} />
-      <Footer lang={params.lang} />
+      <Footer lang={lang} />
     </>
   );
 }
@@ -35,9 +36,10 @@ export async function generateMetadata({
 }: {
   params: Params;
 }): Promise<Metadata> {
+  const { uid, lang } = await params;
   const client = createClient();
   const page = await client
-    .getByUID("blog_post", params.uid, { lang: params.lang })
+    .getByUID("blog_post", uid, { lang })
     .catch(() => notFound());
 
   return {
