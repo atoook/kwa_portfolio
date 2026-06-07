@@ -11,6 +11,10 @@
     "typecheck": "tsc --noEmit",
     "slicemachine": "start-slicemachine"
   },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.5.1"
+  },
   "dependencies": {
     "@prismicio/client": "^7.21.8",
     "@prismicio/next": "^2.2.4",
