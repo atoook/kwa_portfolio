@@ -5,7 +5,7 @@ import { createClient } from '@/prismicio';
 
 const staticDirectories = ['/images', '/sounds', '/api'];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
   // Allow all requests to the public folder to pass through unmodified

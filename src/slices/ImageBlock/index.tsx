@@ -1,5 +1,6 @@
 import { Content } from "@prismicio/client";
 import { PrismicImage, SliceComponentProps } from "@prismicio/react";
+import type { ReactElement } from "react";
 
 /**
  * Props for `ImageBlock`.
@@ -9,7 +10,7 @@ export type ImageBlockProps = SliceComponentProps<Content.ImageBlockSlice>;
 /**
  * Component for "ImageBlock" Slices.
  */
-const ImageBlock = ({ slice }: ImageBlockProps): JSX.Element => {
+const ImageBlock = ({ slice }: ImageBlockProps): ReactElement => {
   return <PrismicImage field={slice.primary.image} imgixParams={{ w: 600 }} />;
 };
 
