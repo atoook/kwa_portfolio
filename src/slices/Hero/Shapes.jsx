@@ -1,166 +1,164 @@
 "use client";
 
 import * as THREE from "three";
-import { Canvas } from "@react-three/fiber";
-import { ContactShadows, Float, Environment } from "@react-three/drei";
-import { Suspense, useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { Geo } from "next/font/google";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Float, Line, Sparkles } from "@react-three/drei";
+import { Suspense, useMemo, useRef } from "react";
+
+const nodes = [
+  { position: [-4.2, 1.2, 0.2], radius: 0.2, accent: true },
+  { position: [-3.3, -1.6, -0.6], radius: 0.16 },
+  { position: [-2.4, 2.8, -1.2], radius: 0.12 },
+  { position: [-1.7, 0.1, 0.8], radius: 0.24, accent: true },
+  { position: [-0.8, -2.5, 0.4], radius: 0.13 },
+  { position: [-0.2, 2.1, 1.1], radius: 0.17 },
+  { position: [0.6, -0.5, -0.9], radius: 0.2, accent: true },
+  { position: [1.2, 2.9, -0.5], radius: 0.14 },
+  { position: [1.8, 0.8, 0.9], radius: 0.15 },
+  { position: [2.3, -2.1, -0.3], radius: 0.18 },
+  { position: [3.1, 1.8, 0.4], radius: 0.22, accent: true },
+  { position: [3.7, -0.8, 1.1], radius: 0.13 },
+  { position: [4.4, 0.2, -0.7], radius: 0.16 },
+];
+
+const connections = [
+  [0, 2],
+  [0, 3],
+  [1, 3],
+  [1, 4],
+  [2, 5],
+  [3, 5],
+  [3, 6],
+  [4, 6],
+  [5, 7],
+  [5, 8],
+  [6, 8],
+  [6, 9],
+  [7, 10],
+  [8, 10],
+  [9, 11],
+  [10, 12],
+  [11, 12],
+];
 
 export default function Shapes() {
   return (
     <div className="row-span-1 row-start-1 -mt-9 aspect-square md:col-span-1 md:col-start-2 md:mt-0">
       <Canvas
         className="z-0"
-        shadows
-        gl={{ antialias: false }}
+        gl={{ antialias: true, alpha: true }}
         dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 25], fov: 30, near: 1, far: 40 }}
+        camera={{ position: [0, 0, 13], fov: 42, near: 0.1, far: 40 }}
       >
         <Suspense fallback={null}>
-          <Geometries />
-          <ContactShadows
-            position={[0, -3.5, 0]}
-            opacity={0.65}
-            scale={40}
-            blur={1}
-            for={9}
-          />
-          <Environment preset="studio" />
+          <ambientLight intensity={0.75} />
+          <pointLight position={[2, 4, 6]} intensity={18} color="#f7d46a" />
+          <pointLight position={[-5, -3, 4]} intensity={7} color="#7dd3fc" />
+          <ConstellationGarden />
         </Suspense>
       </Canvas>
     </div>
   );
 }
 
-function Geometries() {
-  const geometries = [
-    {
-      position: [0, 0, 0],
-      r: 0.3,
-      geometry: new THREE.IcosahedronGeometry(3), //Gem
-    },
-    {
-      position: [1, -0.75, 4],
-      r: 0.4,
-      geometry: new THREE.CapsuleGeometry(0.5, 1.5, 2, 16), //Pill
-    },
-    {
-      position: [-1.4, 2, -4],
-      r: 0.6,
-      geometry: new THREE.DodecahedronGeometry(1.5), //Soccer Ball
-    },
-    {
-      position: [-0.8, -0.75, 5],
-      r: 0.3,
-      geometry: new THREE.TorusGeometry(0.6, 0.25, 16, 32), //Pill
-    },
-    {
-      position: [1.6, 1.6, -4],
-      r: 0.7,
-      geometry: new THREE.OctahedronGeometry(1.5), //Donut
-    },
-  ];
+function ConstellationGarden() {
+  const groupRef = useRef();
+  const { pointer } = useThree();
 
-  const materials = [
-    new THREE.MeshNormalMaterial(),
-    new THREE.MeshStandardMaterial({ color: 0x36ba98, roughness: 0 }),
-    new THREE.MeshStandardMaterial({ color: 0xe9c46a, roughness: 0.4 }),
-    new THREE.MeshStandardMaterial({ color: 0xf4a261, roughness: 0.1 }),
-    new THREE.MeshStandardMaterial({ color: 0xf4a261, roughness: 0.1 }),
-    new THREE.MeshStandardMaterial({ color: 0xd83f31, roughness: 0.1 }),
-    new THREE.MeshStandardMaterial({
-      color: 0x2c3e50,
-      roughness: 0,
-      metalness: 0.5,
-    }),
-    new THREE.MeshStandardMaterial({
-      color: 0x2c3e50,
-      roughness: 0.1,
-      metalness: 0.5,
-    }),
-  ];
+  useFrame(({ clock }) => {
+    if (!groupRef.current) return;
 
-  const soundEffects = [
-    new Audio("/sounds/knock1.ogg"),
-    new Audio("/sounds/knock2.ogg"),
-    new Audio("/sounds/knock3.ogg"),
-  ];
+    const elapsed = clock.getElapsedTime();
+    groupRef.current.rotation.y =
+      Math.sin(elapsed * 0.18) * 0.12 + pointer.x * 0.18;
+    groupRef.current.rotation.x =
+      Math.cos(elapsed * 0.16) * 0.07 - pointer.y * 0.1;
+    groupRef.current.position.y = Math.sin(elapsed * 0.42) * 0.1;
+  });
 
-  // Pass to Geometry
-  return geometries.map(({ position, r, geometry }) => (
-    <Geometry
-      key={JSON.stringify(position)}
-      position={position.map((p) => p * 2)}
-      soundEffects={soundEffects}
-      geometry={geometry}
-      materials={materials}
-      r={r}
+  return (
+    <group ref={groupRef} rotation={[0.08, -0.18, -0.05]}>
+      <Sparkles
+        count={42}
+        scale={[9, 6, 3]}
+        size={1.8}
+        speed={0.18}
+        opacity={0.28}
+        color="#fde68a"
+      />
+      <ConnectionLines />
+      {nodes.map((node, index) => (
+        <GardenNode key={index} {...node} delay={index * 0.17} />
+      ))}
+    </group>
+  );
+}
+
+function ConnectionLines() {
+  const curves = useMemo(
+    () =>
+      connections.map(([startIndex, endIndex]) => {
+        const start = new THREE.Vector3(...nodes[startIndex].position);
+        const end = new THREE.Vector3(...nodes[endIndex].position);
+        const midpoint = start.clone().lerp(end, 0.5);
+        midpoint.z += 0.35;
+        midpoint.y += Math.sin(startIndex + endIndex) * 0.24;
+
+        return new THREE.QuadraticBezierCurve3(start, midpoint, end).getPoints(
+          24,
+        );
+      }),
+    [],
+  );
+
+  return curves.map((points, index) => (
+    <Line
+      key={index}
+      points={points}
+      color="#facc15"
+      lineWidth={0.7}
+      transparent
+      opacity={0.25}
     />
   ));
 }
 
-function Geometry({ r, position, geometry, materials, soundEffects }) {
-  const meshRef = useRef();
-  const [visible, setVisible] = useState(false);
+function GardenNode({ position, radius, accent = false, delay }) {
+  const nodeRef = useRef();
+  const glowColor = accent ? "#facc15" : "#a7f3d0";
+  const coreColor = accent ? "#fde68a" : "#d9f99d";
 
-  const startingMaterial = getRandomMaterial();
+  useFrame(({ clock }) => {
+    if (!nodeRef.current) return;
 
-  function getRandomMaterial() {
-    return gsap.utils.random(materials);
-  }
-
-  function handleClick(e) {
-    const mesh = e.object;
-
-    gsap.utils.random(soundEffects).play();
-
-    gsap.to(mesh.rotation, {
-      x: `+=${gsap.utils.random(0, 2)}`,
-      y: `+=${gsap.utils.random(0, 2)}`,
-      z: `+=${gsap.utils.random(0, 2)}`,
-      duration: 1.3,
-      ease: "elastic.out(1,0.3)",
-      yoyo: true,
-    });
-
-    mesh.material = getRandomMaterial();
-  }
-
-  const handlePointerOver = () => {
-    document.body.style.cursor = "pointer";
-  };
-  const handlePointerOut = () => {
-    document.body.style.cursor = "default";
-  };
-
-  useEffect(() => {
-    let ctx = gsap.context(() => {
-      setVisible(true);
-      gsap.from(meshRef.current.scale, {
-        x: 0,
-        y: 0,
-        z: 0,
-        duration: 1,
-        ease: "elastic.out(1,0.3)",
-        delay: 0.3,
-      });
-    });
-    return () => ctx.revert(); //cleanup
-  }, []);
+    const pulse = 1 + Math.sin(clock.getElapsedTime() * 1.2 + delay) * 0.08;
+    nodeRef.current.scale.setScalar(pulse);
+  });
 
   return (
-    <group position={position} ref={meshRef}>
-      <Float speed={5 * r} rotationIntensity={6 * r} floatIntensity={5 * r}>
-        <mesh
-          geometry={geometry}
-          onClick={handleClick}
-          onPointerOver={handlePointerOver}
-          onPointerOut={handlePointerOut}
-          visible={visible}
-          material={startingMaterial}
-        />
-      </Float>
-    </group>
+    <Float speed={0.8} rotationIntensity={0.15} floatIntensity={0.45}>
+      <group ref={nodeRef} position={position}>
+        <mesh>
+          <sphereGeometry args={[radius * 2.6, 32, 32]} />
+          <meshBasicMaterial
+            color={glowColor}
+            transparent
+            opacity={accent ? 0.16 : 0.1}
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </mesh>
+        <mesh>
+          <sphereGeometry args={[radius, 32, 32]} />
+          <meshStandardMaterial
+            color={coreColor}
+            emissive={glowColor}
+            emissiveIntensity={accent ? 1.5 : 0.75}
+            roughness={0.55}
+            metalness={0.05}
+          />
+        </mesh>
+      </group>
+    </Float>
   );
 }
