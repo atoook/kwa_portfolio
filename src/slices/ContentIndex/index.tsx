@@ -4,6 +4,7 @@ import { Content, isFilled } from "@prismicio/client";
 import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
 import ContentList from "./ContentList";
 import { createClient } from "@/prismicio";
+import type { ReactElement } from "react";
 
 /**
  * Props for `ContentIndex`.
@@ -20,7 +21,7 @@ export type ContentIndexProps =
 const ContentIndex = async ({
   slice,
   context,
-}: ContentIndexProps): Promise<JSX.Element> => {
+}: ContentIndexProps): Promise<ReactElement> => {
   const { lang } = context;
   const client = createClient();
   const blogPosts = await client.getAllByType("blog_post", { lang: lang });

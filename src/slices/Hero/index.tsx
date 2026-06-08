@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import type { ReactElement } from "react";
 
 import { Content, KeyTextField } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
@@ -15,7 +16,7 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
 /**
  * Component for "Hero" Slices.
  */
-const Hero = ({ slice }: HeroProps): JSX.Element => {
+const Hero = ({ slice }: HeroProps): ReactElement => {
   const component = useRef(null);
 
   useEffect(() => {

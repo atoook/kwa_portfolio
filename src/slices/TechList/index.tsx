@@ -2,6 +2,7 @@
 import { Content } from "@prismicio/client";
 import { SliceComponentProps } from "@prismicio/react";
 import React, { useEffect, useRef } from "react";
+import type { ReactElement } from "react";
 import { MdCircle } from "react-icons/md";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,7 +20,7 @@ export type TechListProps = SliceComponentProps<Content.TechListSlice>;
 /**
  * Component for "TechList" Slices.
  */
-const TechList = ({ slice }: TechListProps): JSX.Element => {
+const TechList = ({ slice }: TechListProps): ReactElement => {
   const component = useRef(null);
 
   useEffect(() => {

@@ -6,14 +6,60 @@ import Bounded from "@/components/Bounded";
 import { isFilled } from "@prismicio/client";
 import { FaGithub, FaTwitter, FaLinkedin } from "react-icons/fa6";
 import { SiQiita } from "react-icons/si";
+import type { IconType } from "react-icons";
 
 type Params = {
   lang: string;
 };
 
+type SocialLinkProps = {
+  field: React.ComponentProps<typeof PrismicNextLink>["field"];
+  icon: IconType;
+  label: string;
+};
+
+function SocialLink({ field, icon: Icon, label }: SocialLinkProps) {
+  if (!isFilled.link(field)) {
+    return null;
+  }
+
+  return (
+    <PrismicNextLink
+      field={field}
+      className="p-2 text-2xl text-slate-300 transition-all duration-150 hover:scale-125 hover:text-yellow-400"
+      aria-label={label}
+    >
+      <Icon />
+    </PrismicNextLink>
+  );
+}
+
 export default async function Footer({ lang }: Params) {
   const client = createClient();
   const settings = await client.getSingle("settings", { lang: lang });
+  const socialLinks = [
+    {
+      field: settings.data.github_link,
+      icon: FaGithub,
+      label: `${settings.data.name} on GitHub`,
+    },
+    {
+      field: settings.data.twitter_link,
+      icon: FaTwitter,
+      label: `${settings.data.name} on Twitter`,
+    },
+    {
+      field: settings.data.linkedin_link,
+      icon: FaLinkedin,
+      label: `${settings.data.name} on LinkedIn`,
+    },
+    {
+      field: settings.data.qiita_link,
+      icon: SiQiita,
+      label: `${settings.data.name} on Qiita`,
+    },
+  ];
+
   return (
     <Bounded as="footer" className="text-slate-600">
       <div className="container mx-auto mt-20 flex flex-col items-center justify-between gap-6 py-8 sm:flex-row">
@@ -61,42 +107,9 @@ export default async function Footer({ lang }: Params) {
           </ul>
         </nav>
         <div className="socials inline-flex justify-center sm:justify-end">
-          {isFilled.link(settings.data.github_link) && (
-            <PrismicNextLink
-              field={settings.data.github_link}
-              className="p-2 text-2xl text-slate-300 transition-all duration-150 hover:scale-125 hover:text-yellow-400"
-              aria-label={settings.data.name + " on GitHub"}
-            >
-              <FaGithub />
-            </PrismicNextLink>
-          )}
-          {isFilled.link(settings.data.twitter_link) && (
-            <PrismicNextLink
-              field={settings.data.twitter_link}
-              className="p-2 text-2xl text-slate-300 transition-all duration-150 hover:scale-125 hover:text-yellow-400"
-              aria-label={settings.data.name + " on Twitter"}
-            >
-              <FaTwitter />
-            </PrismicNextLink>
-          )}
-          {isFilled.link(settings.data.linkedin_link) && (
-            <PrismicNextLink
-              field={settings.data.linkedin_link}
-              className="p-2 text-2xl text-slate-300 transition-all duration-150 hover:scale-125 hover:text-yellow-400"
-              aria-label={settings.data.name + " on LinkedIn"}
-            >
-              <FaLinkedin />
-            </PrismicNextLink>
-          )}
-          {isFilled.link(settings.data.qiita_link) && (
-            <PrismicNextLink
-              field={settings.data.qiita_link}
-              className="p-2 text-2xl text-slate-300 transition-all duration-150 hover:scale-125 hover:text-yellow-400"
-              aria-label={settings.data.name + " on LinkedIn"}
-            >
-              <SiQiita />
-            </PrismicNextLink>
-          )}
+          {socialLinks.map((link) => (
+            <SocialLink key={link.label} {...link} />
+          ))}
         </div>
       </div>
     </Bounded>

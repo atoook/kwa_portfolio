@@ -4,37 +4,31 @@ import { SliceZone } from "@prismicio/react";
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
 
+import PageFrame from "@/components/PageFrame";
 import { getLocales } from "@/utils/getLocales";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-export default async function Page({
-  params: { lang },
-}: {
-  params: { lang: string };
-}) {
+type Params = Promise<{ lang: string }>;
+
+export default async function Page({ params }: { params: Params }) {
+  const { lang } = await params;
   const client = createClient();
   const page = await client.getSingle("homepage", { lang });
 
   const locales = await getLocales(page, client);
 
   return (
-    <>
-      <Header lang={lang}>
-        <LanguageSwitcher locales={locales} />
-      </Header>
+    <PageFrame lang={lang} locales={locales}>
       <SliceZone slices={page.data.slices} components={components} />
-      <Footer lang={lang} />
-    </>
+    </PageFrame>
   );
 }
 
 export async function generateMetadata({
-  params: { lang },
+  params,
 }: {
-  params: { lang: string };
+  params: Params;
 }): Promise<Metadata> {
+  const { lang } = await params;
   const client = createClient();
   const page = await client.getSingle("homepage", { lang });
 

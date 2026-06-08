@@ -19,7 +19,7 @@ const localeLabels = {
 const LanguageSwitcher = ({ locales }: LanguageSwitcherProps) => {
   const currentLocale = locales[0]?.lang_name;
   const sortedLocales = [...locales].sort((a, b) =>
-    a.lang.localeCompare(b.lang_name),
+    a.lang.localeCompare(b.lang),
   );
 
   return (
@@ -32,7 +32,6 @@ const LanguageSwitcher = ({ locales }: LanguageSwitcherProps) => {
           >
             <PrismicNextLink
               href={locale.url}
-              locale={locale.lang}
               aria-label={`Change language to ${locale.lang_name}`}
             >
               {localeLabels[locale.lang as keyof typeof localeLabels] ||
