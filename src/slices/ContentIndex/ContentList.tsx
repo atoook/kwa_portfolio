@@ -43,7 +43,7 @@ export default function ContentList({
             opacity: 1,
             y: 0,
             duration: 1.3,
-            ease: "eastic.out(1,0.3)",
+            ease: "elastic.out(1,0.3)",
             stagger: 0.2,
             scrollTrigger: {
               trigger: item,
@@ -130,7 +130,7 @@ export default function ContentList({
             {isFilled.keyText(item.data.title) && (
               <li
                 key={index}
-                className="opacity-0f z-50 list-item"
+                className="z-50 list-item opacity-0"
                 onMouseEnter={() => onMouseEnter(index)}
                 ref={(el) => {
                   itemsRef.current[index] = el;
@@ -139,7 +139,7 @@ export default function ContentList({
                 <Link
                   href={urlPrefix + "/" + item.uid}
                   className="flex flex-col justify-between border-t border-t-slate-100 py-10 text-slate-200 md:flex-row"
-                  arial-label={item.data.title}
+                  aria-label={item.data.title}
                 >
                   <div className="flex flex-col">
                     <span className="text-3xl font-bold">

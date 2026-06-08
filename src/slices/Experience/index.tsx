@@ -15,8 +15,8 @@ export type ExperienceProps = SliceComponentProps<Content.ExperienceSlice>;
 const Experience = ({ slice }: ExperienceProps): ReactElement => {
   return (
     <Bounded
-      data-slice_type={slice.slice_type}
-      data-slice_variation={slice.variation}
+      data-slice-type={slice.slice_type}
+      data-slice-variation={slice.variation}
     >
       <Heading as="h2" size="xl">
         {slice.primary.heading}
