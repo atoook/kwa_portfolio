@@ -4,10 +4,8 @@ import { SliceZone } from "@prismicio/react";
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
 
+import PageFrame from "@/components/PageFrame";
 import { getLocales } from "@/utils/getLocales";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type Params = Promise<{ lang: string }>;
 
@@ -19,13 +17,9 @@ export default async function Page({ params }: { params: Params }) {
   const locales = await getLocales(page, client);
 
   return (
-    <>
-      <Header lang={lang}>
-        <LanguageSwitcher locales={locales} />
-      </Header>
+    <PageFrame lang={lang} locales={locales}>
       <SliceZone slices={page.data.slices} components={components} />
-      <Footer lang={lang} />
-    </>
+    </PageFrame>
   );
 }
 
