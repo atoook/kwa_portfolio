@@ -2,6 +2,7 @@
   "name": "kwa-portfolio",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "clean": "rm -rf node_modules/.cache && rm -rf .next/cache && rm -rf node_modules && npm install",

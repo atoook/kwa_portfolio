@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
@@ -10,12 +11,10 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'cubes-pattern': "url('/images/cubes.png')",
+        "cubes-pattern": "url('/images/cubes.png')",
       },
     },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [typography],
 };
 export default config;
